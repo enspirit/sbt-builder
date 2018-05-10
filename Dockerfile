@@ -1,7 +1,7 @@
 # Pull base image
 FROM java:8
 
-ENV SCALA_VERSION 2.11.8
+ENV SCALA_VERSION 2.12.6
 ENV SBT_VERSION 0.13.9
 
 # Install Scala
