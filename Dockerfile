@@ -3,6 +3,8 @@ FROM openjdk:11.0.2-jdk-oraclelinux7
 
 ENV SCALA_VERSION 2.13.2
 ENV SBT_VERSION 1.3.9
+ENV LC_ALL=en_US.UTF-8
+ENV LANG=en_US.UTF-8
 
 # Install Scala
 ## Piping curl directly in tar
