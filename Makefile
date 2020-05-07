@@ -6,7 +6,7 @@ SHELL=/bin/bash -o pipefail
 # Optional tag version number to use
 DOCKER_TAG := $(or ${DOCKER_TAG},${DOCKER_TAG},latest)
 
-default: build push
+default: build
 
 build:
 	docker build -t enspirit/sbt-builder:${DOCKER_TAG} .
