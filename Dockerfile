@@ -1,26 +1,25 @@
 # Pull base image
-FROM openjdk:11.0.2-jdk-oraclelinux7
+FROM openjdk:16-jdk-alpine
 
-ENV SCALA_VERSION 2.13.2
-ENV SBT_VERSION 1.3.9
+ENV SCALA_VERSION 2.13.3
+ENV SBT_VERSION 1.4.1
 ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
+ENV PATH /sbt/bin:$PATH
 
-# Install Scala
-## Piping curl directly in tar
+RUN apk add --no-cache -U bash
+
 # Install sbt
 RUN \
-  curl -L -o sbt-$SBT_VERSION.rpm https://bintray.com/sbt/rpm/download_file?file_path=sbt-$SBT_VERSION.rpm && \
-  rpm -i sbt-$SBT_VERSION.rpm && \
-  rm sbt-$SBT_VERSION.rpm && \
-  yum -y update && \
-  yum -y install sbt && \
-  sbt sbtVersion
+  wget https://github.com/sbt/sbt/releases/download/v$SBT_VERSION/sbt-$SBT_VERSION.tgz && \
+  tar -xzvf sbt-$SBT_VERSION.tgz && \
+  rm sbt-$SBT_VERSION.tgz && \
+  sbt sbtVersion -Dsbt.rootdir=true
 
 # Install Scala
 ## Piping curl directly in tar
 RUN \
-  curl -fsL https://downloads.typesafe.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz | tar xfz - -C /usr/share && \
+  wget -O - https://downloads.typesafe.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz | tar xfz - -C /usr/share/ && \
   mv /usr/share/scala-$SCALA_VERSION /usr/share/scala && \
   chown -R root:root /usr/share/scala && \
   chmod -R 755 /usr/share/scala && \
